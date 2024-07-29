@@ -44,46 +44,59 @@ addButton.addEventListener("click", add);
 
 function add() {
   //리스트를 추가하는 함수
-  let userWorkList = [];
-  userWorkList = createListItem();
+  let userWorkList = createListItem();
   let addDiv = createDiv();
-  let currentUserListItem = userWorkList[0];
-
-  // console.log("유저의 현재 리스트(객체)" + userWorkList[0]);
-
-  currentUserListItem.appendChild(addDiv);
-  // console.log(userWorkList);
-  toDoMemo.appendChild(currentUserListItem);
-  listItems.push(userWorkList);
-  let deletButton = document.getElementsByClassName("fa-trash");
-  console.log("삭제버튼 호출됨" + deletButton);
-  for (let i = 0; i < deletButton.length; i++) {
-    deletButton[i].addEventListener(
-      "click",
-      (event) => delet(userWorkList, event)
-      //화살표함수의 매개변수event로 이벤트객체가 들어가기 때문에 데이터가 담긴 event를 그대로 사용하여
-      //호출한 함수의 인자값으로 넣어줘야 호출한 함수가 올바르게 데이터를 받겠지
-    );
+  console.log(addDiv);
+  let currentUserItem = null;
+  let currentUserItemInfo = null;
+  for (let i = 0; i < userWorkList.length; i++) {
+    if (i === 0) {
+      currentUserItem = userWorkList[i];
+    } else {
+      currentUserItemInfo = userWorkList[i];
+    }
   }
+  console.log(
+    "현재유저아이템 :" +
+      currentUserItem +
+      "현재유저아이템정보 :" +
+      currentUserItemInfo
+  );
+  currentUserItem.appendChild(addDiv);
+  toDoMemo.appendChild(currentUserItem);
+  listItems.push(currentUserItemInfo);
+  let deleteButton = addDiv.querySelector(".fa-trash");
+  console.log("삭제버튼 호출됨" + deleteButton);
+  deleteButton.addEventListener("click", (event) =>
+    delet(currentUserItem, currentUserItemInfo, event)
+  );
   console.log(listItems);
   console.log("------------------------------------------");
 }
-function createListItem() {
-  //함수 호출시 새로운 객체li가 개별로 빌드됨(지역으로 세팅되었기때문)
+function createListInfo() {
+  //li에대한 정보를 저장하는 함수
   const li = {
     //li를 나타내는 모든 정보들을 객체{} 안에 담아서 데이터를 일반화시킴
     id: listItems.length + 1,
     text: `${daliyWork.value}`,
     status: "all", //nd: 해야할 일, d: 완료된 일, all: 모두다
   };
+  return li;
+}
+function createListItem() {
+  //함수 호출시 새로운 객체(li)가 개별로 빌드됨(지역으로 세팅되었기때문)
+  let userLiInfo = createListInfo();
   let dailyItem = document.createElement("li"); // <li>
-  dailyItem.textContent = li.text;
-  if (li.id > 1) dailyItem.style.borderTop = 0;
-  console.log("리스트 아이디 : " + li.id);
-  console.log("리스트 상태 : " + li.status);
+  dailyItem.textContent = userLiInfo.text;
+  dailyItem.setAttribute("data-id", userLiInfo.id);
+  dailyItem.setAttribute("data-status", userLiInfo.status);
+  if (userLiInfo.id > 1) dailyItem.style.borderTop = 0;
+  console.log("리스트 아이디 : " + userLiInfo.id);
+  console.log("리스트 상태 : " + userLiInfo.status);
   console.log(dailyItem.textContent);
+  console.log(dailyItem);
 
-  return [dailyItem, li.id, li.status];
+  return [dailyItem, userLiInfo];
 }
 function createDiv() {
   const div = {
@@ -95,6 +108,7 @@ function createDiv() {
   for (let eleItag of [firstI, secondI]) {
     elementDiv.appendChild(eleItag);
   }
+  console.log(elementDiv);
   return elementDiv;
 }
 function createEtcTag() {
@@ -113,19 +127,24 @@ function createEtcTag() {
   console.log(firstElementI, secondElementI);
   return [firstElementI, secondElementI];
 }
-function delet(element, event) {
+function delet(currentLi, currentLiInfo, event) {
   //아이템을 삭제하는 함수
   //element: 배열에 담긴 리스트 데이터, event: 현재 바인딩된 요소
-  let currentLi = element[0];
-  let currentListId = element[1];
-  let currentLiStatus = element[2];
+  let li = currentLi;
+  let liInfo = currentLiInfo;
   if (event.currentTarget) {
     console.log("현재 바인딩된 요소입니다");
-    currentLi.remove();
+    li.remove();
+    let index = listItems.findIndex((obj) => obj.id === liInfo.id);
     //현재 아이디를 포함하는 배열도 리스트에서 삭제
+    if (index != -1) {
+      //조건에 충족한 요소가 있으면
+      listItems.splice(index, 1);
+    }
   }
-  console.log(element);
+
   //리스트의 아이디값을 사용하여 특정 리스트를 갖고와서 그 li를 삭제한다
   console.log("리스트 삭제하는 함수 호출됨");
+  console.log(listItems);
   console.log("----------------------------------------");
 }
