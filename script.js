@@ -39,6 +39,7 @@ let daliyWork = document.getElementById("user-input");
 let addButton = document.getElementById("add-button");
 let toDoMemo = document.getElementById("to-do-memo"); // <ul>
 let listItems = [];
+let completItem = [];
 
 addButton.addEventListener("click", add);
 
@@ -66,10 +67,18 @@ function add() {
   toDoMemo.appendChild(currentUserItem);
   listItems.push(currentUserItemInfo);
   let deleteButton = addDiv.querySelector(".fa-trash");
+  let checkButton = addDiv.querySelector(".fa-check");
+
+  console.log("체크버튼 호출됨" + checkButton);
   console.log("삭제버튼 호출됨" + deleteButton);
   deleteButton.addEventListener("click", (event) =>
     delet(currentUserItem, currentUserItemInfo, event)
   );
+  checkButton.addEventListener("click", (event) =>
+    check(currentUserItem, currentUserItemInfo, event)
+  );
+
+  updateListBorderTop();
   console.log(listItems);
   console.log("------------------------------------------");
 }
@@ -142,9 +151,58 @@ function delet(currentLi, currentLiInfo, event) {
       listItems.splice(index, 1);
     }
   }
-
+  updateListBorderTop();
   //리스트의 아이디값을 사용하여 특정 리스트를 갖고와서 그 li를 삭제한다
   console.log("리스트 삭제하는 함수 호출됨");
   console.log(listItems);
   console.log("----------------------------------------");
+}
+
+// 첫번째 li 아이템은 반드시 보더 탑이 1이어야함
+// 리스트가 추가 삭제 될때마다 보더 탑을 업데이트 해주는 함수
+
+function updateListBorderTop() {
+  let liElement = toDoMemo.querySelectorAll("li");
+  console.log(liElement);
+  liElement.forEach((li, index) => {
+    if (index === 0) {
+      li.style.borderTop = "1px solid #000";
+    } else {
+      li.style.borderTop = 0;
+    }
+  });
+}
+
+//체크버튼을 누르면 해당 아이템에 밑줄이 그어지고, 리프레쉬 버튼으로 바뀜
+//상태값을 업데이트 그리고 해당 아이템이랑 상태값을 묶어서 배열에 저장
+
+function check(currentLi, currentLiInfo, event) {
+  //할일에 체크버튼을 클릭하면 해당 아이템의 텍스트에 밑줄이 그어짐
+  console.log("체크함수 호출함");
+  let li = currentLi;
+  let liInfo = currentLiInfo;
+  if (event.currentTarget) {
+    console.log("현재 바인딩된 요소입니다");
+    li.style.textDecoration = "line-through";
+    let transCheck = li.querySelector(".fa-check");
+    transCheck.setAttribute("class", "fa fa-refresh");
+    liInfo.status = "d"; //완료된 일
+    console.log(liInfo.status);
+    completItem.push([li, liInfo]);
+    console.log(completItem);
+    // completItem
+    // let index = listItems.findIndex((obj) => obj.id === liInfo.id);
+    // //현재 아이디를 포함하는 배열도 리스트에서 삭제
+    // if (index != -1) {
+    //   //조건에 충족한 요소가 있으면
+    //   listItems.splice(index, 1);
+    // }
+  }
+  let refreshButton = addDiv.querySelector(".fa-refresh");
+  console.log(refreshButton);
+  refreshButton.addEventListener("click", refresh);
+}
+
+function refresh() {
+  console.log("리프레쉬 함수 호출됨");
 }
