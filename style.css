@@ -97,3 +97,6 @@ ul {
 /* .to-do-memo li:nth-child(2) {
   border-top: 0;
 } */
+.to-do-memo li:nth-child(1) {
+  border-top: 1px solid black;
+}
