@@ -1,99 +1,101 @@
-/* reset css */
-
 * {
   box-sizing: border-box;
+}
+
+body {
   margin: 0;
+  background: url("images/background.jfif");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,
-textarea,
-input {
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  /* font-size는 가변적임 */
-}
-
-button:focus,
-button:active,
-textarea:focus,
-textarea:active,
-input:focus,
-input:active {
-  box-shadow: none;
-  outline: none;
-}
-
-ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
 .container {
-  width: 100%;
-  border: 1px solid black;
-  padding: 10px;
+  background-color: #fff;
+  min-height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
-.container h1 {
-  font-size: 32px;
+.task-area {
+  border: 1px solid lightgray;
+  border-bottom: none;
 }
-.user-input {
-  margin-top: 10px;
+.task-tabs {
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  border-bottom: 1px solid lightgray;
 }
-.user-input input {
-  width: 95%;
+.task-tabs div {
+  padding: 1em;
 }
-.add-btn {
-  display: flex;
+#under-line {
+  height: 4px;
+  background-color: pink;
+  position: absolute;
+  width: 51px;
+  left: 0;
+  top: 52px;
+  padding: 0;
+}
+#add-button {
+  border: none;
+  background-color: blanchedalmond;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 5%;
-  background-color: pink;
+  border-radius: 3px;
+  text-align: center;
 }
-.cnt-etc {
-  color: #fff;
-  cursor: pointer;
-}
-.list-tab-menus {
-  /* border: 1px solid black; */
-  width: 650px;
-  padding: 15px;
-  margin-top: 10px;
-  border-bottom: 0;
-}
-.list-tab-menus a {
-  /* border: 1px solid black; */
-  margin-right: 11px;
-  display: inline-block;
-  padding: 5px;
-}
-.to-do-memo {
-  /* border: 1px solid black; */
-  width: 650px;
-}
-.to-do-memo li {
+.task {
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
-  width: 650px;
-  padding: 15px;
+  align-items: center;
+  /* padding: 1em; */
+  border-bottom: 1px solid lightgray;
 }
-.to-do-memo li i:first-child {
-  color: rgb(0, 170, 0);
-  margin-right: 55px;
+.task-done {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  background-color: lightgrey;
+  width: 100%;
+  padding-left: 15px;
+}
+.fa-solid {
   cursor: pointer;
 }
-.to-do-memo li i:last-child {
+.fa-check {
+  margin-right: 60px;
+  font-size: 20px;
+  color: green;
+}
+.fa-trash {
+  margin-right: 30px;
   color: red;
+}
+.fa-rotate-left {
+  margin-right: 60px;
+  font-size: 20px;
+  color: lightgrey;
+}
+.size {
+  font-weight: 600;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 60%;
+  height: 60px;
+  padding-left: 15px;
+}
+.input-area {
+  margin-bottom: 13px;
+}
+.all-delete-area {
+  margin-top: 10px;
+  text-align: right;
+}
+.all-delete-area button {
+  border: none;
+  padding: 10px;
+}
+.tabs {
   cursor: pointer;
 }
-/* .to-do-memo li:nth-child(2) {
-  border-top: 0;
-} */
